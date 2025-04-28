@@ -1,0 +1,90 @@
+/* body {
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(135deg, #6e8efb, #a777e3);
+  margin: 0;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  color: #fff;
+}
+
+#timer {
+  font-size: 20px;
+  margin-bottom: 20px;
+  font-weight: bold;
+}
+
+.question {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 30px;
+  border-radius: 20px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  width: 90%;
+  max-width: 500px;
+  text-align: center;
+}
+
+.question h3 {
+  font-size: 1.8rem;
+  margin-bottom: 15px;
+  color: #ffd700;
+}
+
+.question p {
+  font-size: 1.4rem;
+  margin-bottom: 25px;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+li {
+  margin-bottom: 15px;
+}
+
+label {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(255, 255, 255, 0.15);
+  padding: 12px 15px;
+  border-radius: 12px;
+  transition: background 0.3s ease;
+}
+
+label:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+input[type="radio"] {
+  transform: scale(1.2);
+}
+
+button {
+  background: #ff6b6b;
+  color: white;
+  padding: 12px 30px;
+  border: none;
+  border-radius: 25px;
+  font-size: 1rem;
+  margin-top: 20px;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+button:hover {
+  background: #ff4757;
+  transform: scale(1.05);
+}
+
+#score {
+  margin-top: 20px;
+  font-size: 1.4rem;
+  font-weight: bold;
+} */

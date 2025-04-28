@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Student Profile</title>
+  <link rel="stylesheet" href="css\my profile.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="container">
+    <div class="left-panel">
+      <div class="profile-card">
+        <img src="https://i.imgur.com/AsU1zYt.png" alt="Profile Icon" class="profile-img">
+        <div>
+          <h2><span id="studentName"></span></h2>
+          <p><span id="studentEmail">✉️</span></p>
+          <!--<p><span class="icon">📞</span> +91-9415176827</p>-->
+        </div>
+        <a href="#" class="edit-link">✏️ Edit Profile</a>
+      </div>
+
+      <div class="card">
+        <h3>Assigned Trainings</h3>
+        <p class="placeholder">No data available</p>
+      </div>
+
+      <div class="card">
+        <h3>Domain Selected <span class="icon edit-icon">✏️</span></h3>
+        <p class="placeholder">No Domain added</p>
+      </div>
+
+      <div class="card">
+        <h3>Viewed Content</h3>
+        <p class="placeholder">No viewed content</p>
+      </div>
+    </div>
+
+    <div class="right-panel">
+      <div class="card highlight">
+        <h3>Learning Hours</h3>
+        <div class="progress-info">
+          <span>⏱️ 41m 45s this fiscal year</span>
+          <div class="progress-bar">
+            <div class="progress" style="width: 20%"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Completed</h3>
+        <div class="badge-section">
+          <div>
+            <p></p>playlist you have completed
+            <div class="badge-item">
+              <img src="https://i.imgur.com/N4Ynt9w.png" alt="Badge" />
+              <div>
+                <strong>Ace</strong>
+                <p>Awarded On: Mar 23, 2025</p>
+              </div>
+            </div>
+          </div>
+          <div>
+            <p>Your next Badge</p>
+            <div class="badge-row">
+              <img src="https://i.imgur.com/jOBN3gM.png" />
+              <img src="https://i.imgur.com/McdZWZY.png" />
+              <img src="https://i.imgur.com/eTuEdRx.png" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Knowledge Boards you follow</h3>
+        <p class="placeholder">You are not following any knowledge board.</p>
+      </div>
+      
+    </div>
+    
+    <div class="card full-width">
+      <h3>Last Viewed <span class="settings-icon">⚙️</span></h3>
+      <div class="last-viewed-card">
+        <img src="https://i.imgur.com/z3cQFeK.jpg" alt="Java Course" />
+        <div class="card-content">
+          <div class="meta">
+            <span class="level">Beginner</span>
+            <span class="time">113h 2m</span>
+          </div>
+          <h4>Programming using Java</h4>
+          <p>This course introduces a participant to basics of programming and object-oriented programming using Java.</p>
+          <div class="footer">
+            <span>Course</span>
+            <span class="menu-icon">⋮</span>
+          </div>
+        </div>
+      </div>
+      <button onclick="logout()">LogOut</button>
+    </div>
+    
+  </div>
+
+  
+
+  <script src="js\my profile.js"></script>
+</body>
+</html>
+

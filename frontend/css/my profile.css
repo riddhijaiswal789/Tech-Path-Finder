@@ -1,0 +1,199 @@
+body {
+  font-family: 'Inter', sans-serif;
+  background: #054f4f;
+  margin: 0;
+  padding: 20px;
+  color: #000028;
+}
+
+.container {
+  display: flex;
+  gap: 20px;
+  max-width: 1200px;
+  margin: auto;
+  flex-wrap: wrap;
+}
+
+.left-panel, .right-panel {
+  flex: 1;
+  min-width: 340px;
+}
+
+.profile-card {
+  background: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  position: relative;
+}
+
+.profile-img {
+  width: 80px;
+  height: 80px;
+  border: 2px solid #00c9a7;
+  border-radius: 50%;
+}
+
+.edit-link {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  text-decoration: none;
+  font-size: 0.9rem;
+  color: #3b3b99;
+}
+
+.card {
+  background: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.card h3 {
+  margin-top: 0;
+  display: flex;
+  justify-content: space-between;
+  font-size: 1.1rem;
+}
+
+.icon {
+  margin-right: 5px;
+}
+
+.edit-icon {
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.placeholder {
+  color: #444;
+  font-style: italic;
+}
+
+.highlight {
+  background: #90fce5;
+}
+
+.progress-info {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.progress-bar {
+  background: #ddd;
+  height: 8px;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.progress {
+  height: 100%;
+  background: #004d91;
+}
+
+.badge-section {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.badge-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.badge-item img {
+  width: 50px;
+  height: 50px;
+}
+
+.badge-row img {
+  width: 45px;
+  height: 45px;
+  margin-right: 10px;
+}
+.card.full-width {
+  width: 100%;
+}
+
+.last-viewed-card {
+  background: #fff;
+  border-radius: 12px;
+  display: flex;
+  overflow: hidden;
+  margin-top: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  max-width: 500px;
+}
+
+.last-viewed-card img {
+  width: 150px;
+  object-fit: cover;
+}
+
+.card-content {
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex: 1;
+}
+
+.card-content h4 {
+  margin: 8px 0 5px;
+  font-size: 1rem;
+  color: #000028;
+}
+
+.card-content p {
+  font-size: 0.85rem;
+  color: #444;
+  margin-bottom: 10px;
+}
+
+.meta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.8rem;
+  color: #555;
+}
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.menu-icon {
+  cursor: pointer;
+}
+
+.more-link {
+  display: block;
+  margin-top: 10px;
+  text-align: right;
+  color: #000088;
+  font-size: 0.85rem;
+  text-decoration: none;
+}
+
+.settings-icon {
+  font-size: 1rem;
+  float: right;
+  cursor: pointer;
+}
+button {
+  float: right;
+  background-color: black;
+  color: white;
+}
