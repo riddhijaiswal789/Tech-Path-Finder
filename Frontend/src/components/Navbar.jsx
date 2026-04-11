@@ -15,13 +15,16 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="fixed z-50 h-18 w-full border-b border-white/10 bg-slate-950/90 text-white backdrop-blur">
-      <div className="max-w-7xl mx-auto px-6 h-full flex justify-between items-center">
-        <Link to="/" className="text-2xl font-bold tracking-tight text-cyan-300">
+    <nav className="fixed z-50 h-16 md:h-18 w-full border-b border-white/10 bg-slate-950/90 text-white backdrop-blur">
+      <div className="mx-auto flex h-full w-full max-w-7xl items-center justify-between px-4 sm:px-6">
+        <Link
+          to="/"
+          className="max-w-[75%] text-lg font-bold leading-tight tracking-tight text-cyan-300 sm:text-2xl md:max-w-none"
+        >
           Tech Path Finder
         </Link>
 
-        <div className="hidden md:flex items-center space-x-8">
+        <div className="hidden md:flex items-center space-x-4 lg:space-x-8">
           <Link to="/" className="text-slate-300 transition hover:text-white">
             Learning Paths
           </Link>
@@ -42,7 +45,7 @@ const Navbar = () => {
                 Profile
               </Link>
 
-              <span className="text-sm text-slate-400">
+              <span className="hidden text-sm text-slate-400 lg:block">
                 {user?.name}
               </span>
 
@@ -72,7 +75,7 @@ const Navbar = () => {
           )}
         </div>
 
-        <div className="md:hidden text-2xl cursor-pointer">
+        <div className="cursor-pointer text-2xl md:hidden">
           {isOpen ? (
             <FaTimes onClick={() => setIsOpen(false)} />
           ) : (
@@ -82,40 +85,60 @@ const Navbar = () => {
       </div>
 
       {isOpen && (
-        <div className="md:hidden border-t border-white/10 bg-slate-950 px-6 py-4 space-y-4">
+        <div className="space-y-3 border-t border-white/10 bg-slate-950 px-4 py-4 md:hidden sm:px-6">
 
-          <Link to="/" onClick={() => setIsOpen(false)}>
+          <Link
+            to="/"
+            onClick={() => setIsOpen(false)}
+            className="block rounded-xl border border-white/10 px-4 py-3 text-slate-200"
+          >
             Learning Paths
           </Link>
 
           {user ? (
             <>
-              <Link to="/dashboard" onClick={() => setIsOpen(false)}>
+              <Link
+                to="/dashboard"
+                onClick={() => setIsOpen(false)}
+                className="block rounded-xl border border-white/10 px-4 py-3 text-slate-200"
+              >
                 My Learning
               </Link>
 
-              <Link to="/profile" onClick={() => setIsOpen(false)}>
+              <Link
+                to="/profile"
+                onClick={() => setIsOpen(false)}
+                className="block rounded-xl border border-white/10 px-4 py-3 text-slate-200"
+              >
                 Profile
               </Link>
 
-              <div className="text-sm text-slate-400">
+              <div className="px-1 text-sm text-slate-400">
                 {user?.name}
               </div>
 
               <button
                 onClick={handleLogout}
-                className="block w-full text-left text-rose-300"
+                className="block w-full rounded-xl border border-rose-500/30 px-4 py-3 text-left text-rose-300"
               >
                 Logout
               </button>
             </>
           ) : (
             <>
-              <Link to="/login" onClick={() => setIsOpen(false)}>
+              <Link
+                to="/login"
+                onClick={() => setIsOpen(false)}
+                className="block rounded-xl border border-white/10 px-4 py-3 text-slate-200"
+              >
                 Login
               </Link>
 
-              <Link to="/register" onClick={() => setIsOpen(false)}>
+              <Link
+                to="/register"
+                onClick={() => setIsOpen(false)}
+                className="block rounded-xl bg-cyan-400 px-4 py-3 font-medium text-slate-950"
+              >
                 Start Learning
               </Link>
             </>

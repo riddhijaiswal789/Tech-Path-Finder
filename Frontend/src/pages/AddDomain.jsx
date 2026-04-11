@@ -25,14 +25,14 @@ const AddDomain = () => {
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 px-6 py-10 text-white">
+    <div className="min-h-screen bg-slate-950 px-4 py-8 text-white sm:px-6 sm:py-10">
       <div className="mx-auto grid max-w-6xl items-center gap-8 lg:grid-cols-[0.95fr_1fr]">
         <section className="rounded-[2rem] border border-white/10 bg-[linear-gradient(135deg,rgba(8,145,178,0.22),rgba(15,23,42,0.92))] p-8 md:p-10">
           <p className="text-sm uppercase tracking-[0.3em] text-cyan-200">
             Admin Setup
           </p>
-          <h1 className="mt-4 text-4xl font-semibold">Create a new learning path.</h1>
-          <p className="mt-5 max-w-xl text-lg leading-8 text-slate-300">
+          <h1 className="mt-4 text-3xl font-semibold md:text-4xl">Create a new learning path.</h1>
+          <p className="mt-5 max-w-xl text-base leading-7 text-slate-300 sm:text-lg sm:leading-8">
             Add a domain that students can explore before they start watching
             topic lectures and taking quizzes.
           </p>
@@ -40,7 +40,7 @@ const AddDomain = () => {
 
         <form
           onSubmit={handleSubmit}
-          className="rounded-[2rem] border border-white/10 bg-white/5 p-8 shadow-2xl shadow-cyan-950/20"
+          className="rounded-[2rem] border border-white/10 bg-white/5 p-6 shadow-2xl shadow-cyan-950/20 sm:p-8"
         >
           <h2 className="text-2xl font-semibold">Add Domain</h2>
 

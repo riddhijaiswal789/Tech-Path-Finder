@@ -22,20 +22,20 @@ const Home = () => {
 
   return (
     <div className="bg-slate-950 text-white">
-      <section className="relative overflow-hidden px-6 pb-20 pt-12">
+      <section className="relative overflow-hidden px-4 pb-16 pt-10 sm:px-6 sm:pb-20 sm:pt-12">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(34,211,238,0.18),_transparent_38%),radial-gradient(circle_at_bottom_right,_rgba(16,185,129,0.12),_transparent_32%)]" />
 
-        <div className="relative mx-auto grid min-h-[calc(100vh-7rem)] max-w-7xl items-center gap-14 lg:grid-cols-[1.2fr_0.8fr]">
+        <div className="relative mx-auto grid min-h-[calc(100vh-6rem)] max-w-7xl items-center gap-10 lg:min-h-[calc(100vh-7rem)] lg:grid-cols-[1.2fr_0.8fr] lg:gap-14">
           <div>
             <span className="inline-flex rounded-full border border-cyan-400/30 bg-cyan-400/10 px-4 py-2 text-sm text-cyan-200">
               Learn with structure, not random tutorials
             </span>
 
-            <h1 className="mt-6 max-w-4xl text-5xl font-semibold leading-tight md:text-6xl">
+            <h1 className="mt-6 max-w-4xl text-4xl font-semibold leading-tight sm:text-5xl md:text-6xl">
               Explore a tech path, study the lessons, then prove it with MCQs.
             </h1>
 
-            <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-300">
+            <p className="mt-6 max-w-2xl text-base leading-7 text-slate-300 sm:text-lg sm:leading-8">
               Tech Path Finder helps learners move in the right order: choose a
               domain, watch topic-based video lectures, and test understanding
               with quiz practice after each lesson.
@@ -93,7 +93,7 @@ const Home = () => {
         </div>
       </section>
 
-      <section id="learning-paths" className="px-6 py-20">
+      <section id="learning-paths" className="px-4 py-16 sm:px-6 sm:py-20">
         <div className="mx-auto max-w-7xl">
           <div className="mb-12 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
             <div>
@@ -156,7 +156,7 @@ const Home = () => {
         </div>
       </section>
 
-      <section className="border-y border-white/10 bg-slate-900/70 px-6 py-20">
+      <section className="border-y border-white/10 bg-slate-900/70 px-4 py-16 sm:px-6 sm:py-20">
         <div className="mx-auto grid max-w-7xl gap-8 md:grid-cols-3">
           <FeatureCard
             title="Explore before committing"
@@ -173,8 +173,8 @@ const Home = () => {
         </div>
       </section>
 
-      <section className="px-6 py-24">
-        <div className="mx-auto max-w-5xl rounded-[2rem] border border-cyan-400/20 bg-[linear-gradient(135deg,rgba(6,182,212,0.14),rgba(15,23,42,0.88))] p-10 text-center md:p-14">
+      <section className="px-4 py-20 sm:px-6 sm:py-24">
+        <div className="mx-auto max-w-5xl rounded-[2rem] border border-cyan-400/20 bg-[linear-gradient(135deg,rgba(6,182,212,0.14),rgba(15,23,42,0.88))] p-8 text-center sm:p-10 md:p-14">
           <p className="text-sm uppercase tracking-[0.35em] text-cyan-200">
             Learning Flow
           </p>

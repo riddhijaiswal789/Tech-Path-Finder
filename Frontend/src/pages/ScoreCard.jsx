@@ -17,14 +17,14 @@ const ScoreCard = () => {
   else feedback = "Needs Improvement";
 
   return (
-    <div className="min-h-screen bg-slate-950 px-6 py-10 text-white">
+    <div className="min-h-screen bg-slate-950 px-4 py-8 text-white sm:px-6 sm:py-10">
       <div className="mx-auto grid min-h-[calc(100vh-8rem)] max-w-5xl items-center gap-8 lg:grid-cols-[1.1fr_0.9fr]">
         <section className="rounded-[2rem] border border-white/10 bg-[linear-gradient(135deg,rgba(6,182,212,0.18),rgba(15,23,42,0.92))] p-8 md:p-10">
           <p className="text-sm uppercase tracking-[0.3em] text-cyan-200">
             Quiz Complete
           </p>
-          <h1 className="mt-4 text-4xl font-semibold">Your practice result is ready.</h1>
-          <p className="mt-5 max-w-xl text-lg leading-8 text-slate-300">
+          <h1 className="mt-4 text-3xl font-semibold md:text-4xl">Your practice result is ready.</h1>
+          <p className="mt-5 max-w-xl text-base leading-7 text-slate-300 sm:text-lg sm:leading-8">
             Use this result as feedback for the lesson you just studied. The
             goal is steady understanding, not just speed.
           </p>
@@ -36,8 +36,8 @@ const ScoreCard = () => {
           </div>
         </section>
 
-        <section className="rounded-[2rem] border border-white/10 bg-white/5 p-8 text-center shadow-2xl shadow-cyan-950/20">
-          <div className="mx-auto flex h-36 w-36 items-center justify-center rounded-full border-8 border-cyan-400/20 bg-cyan-400/10 text-4xl font-semibold text-cyan-300">
+        <section className="rounded-[2rem] border border-white/10 bg-white/5 p-6 text-center shadow-2xl shadow-cyan-950/20 sm:p-8">
+          <div className="mx-auto flex h-28 w-28 items-center justify-center rounded-full border-8 border-cyan-400/20 bg-cyan-400/10 text-3xl font-semibold text-cyan-300 sm:h-36 sm:w-36 sm:text-4xl">
             {percentage}%
           </div>
 

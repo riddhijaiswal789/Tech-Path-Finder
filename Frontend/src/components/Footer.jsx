@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 const Footer = () => {
   return (
     <footer className="border-t border-white/10 bg-slate-950 text-slate-300">
-      <div className="max-w-7xl mx-auto px-6 py-10 grid gap-8 md:grid-cols-3">
+      <div className="mx-auto grid max-w-7xl gap-8 px-4 py-10 sm:px-6 md:grid-cols-3">
         <div>
           <h2 className="text-xl font-semibold text-white mb-4">
             Tech Path Finder
@@ -44,7 +44,7 @@ const Footer = () => {
         </div>
       </div>
 
-      <div className="border-t border-white/10 py-4 text-center text-sm">
+      <div className="border-t border-white/10 px-4 py-4 text-center text-sm sm:px-6">
         Copyright {new Date().getFullYear()} Tech Path Finder. All rights
         reserved.
       </div>

@@ -44,16 +44,16 @@ const Profile = () => {
   });
 
   return (
-    <div className="min-h-screen bg-slate-950 px-6 py-10 text-white md:px-10">
+    <div className="min-h-screen bg-slate-950 px-4 py-8 text-white sm:px-6 sm:py-10 md:px-10">
       <div className="mx-auto max-w-7xl">
         <section className="rounded-[2rem] border border-white/10 bg-[linear-gradient(135deg,rgba(8,145,178,0.22),rgba(15,23,42,0.92))] p-8 md:p-10">
           <p className="text-sm uppercase tracking-[0.3em] text-cyan-200">
             Learner Profile
           </p>
-          <h1 className="mt-4 text-4xl font-semibold">
+          <h1 className="mt-4 break-words text-3xl font-semibold md:text-4xl">
             {user?.name || "Student"}&apos;s Progress Story
           </h1>
-          <p className="mt-4 max-w-3xl text-lg leading-8 text-slate-300">
+          <p className="mt-4 max-w-3xl text-base leading-7 text-slate-300 sm:text-lg sm:leading-8">
             Review your progress, see how your quiz results are trending, and
             spot which topics need another lecture pass.
           </p>
@@ -72,7 +72,7 @@ const Profile = () => {
         </section>
 
         {weakestDomain && (
-          <section className="mt-10 rounded-[2rem] border border-white/10 bg-white/5 p-8">
+          <section className="mt-10 rounded-[2rem] border border-white/10 bg-white/5 p-6 sm:p-8">
             <h2 className="text-xl font-semibold text-cyan-300">
               Performance Insight
             </h2>

@@ -73,16 +73,16 @@ const Dashboard = () => {
           : "Open Learning Paths";
 
   return (
-    <div className="min-h-screen bg-slate-950 px-6 py-10 text-white md:px-10">
+    <div className="min-h-screen bg-slate-950 px-4 py-8 text-white sm:px-6 sm:py-10 md:px-10">
       <div className="mx-auto max-w-7xl">
         <section className="rounded-[2rem] border border-white/10 bg-[linear-gradient(135deg,rgba(6,182,212,0.18),rgba(15,23,42,0.92))] p-8 md:p-10">
           <p className="text-sm uppercase tracking-[0.3em] text-cyan-200">
             My Learning
           </p>
-          <h1 className="mt-4 text-4xl font-semibold">
+          <h1 className="mt-4 text-3xl font-semibold md:text-4xl">
             Welcome back, {user?.name || "Learner"}
           </h1>
-          <p className="mt-4 max-w-3xl text-lg leading-8 text-slate-300">
+          <p className="mt-4 max-w-3xl text-base leading-7 text-slate-300 sm:text-lg sm:leading-8">
             This area now supports the real journey: continue learning paths,
             revisit topics, and keep an eye on quiz performance without making
             analytics the first thing you see.
@@ -118,7 +118,7 @@ const Dashboard = () => {
           <p className="text-sm uppercase tracking-[0.3em] text-cyan-200">
             Personalized Recommendation
           </p>
-          <div className="mt-4 flex flex-wrap items-start justify-between gap-6">
+          <div className="mt-4 flex flex-wrap items-start justify-between gap-4 sm:gap-6">
             <div className="max-w-3xl">
               <h2 className="text-2xl font-semibold text-white">
                 {recommendation?.title || "Finding your best next step..."}
@@ -136,7 +136,7 @@ const Dashboard = () => {
 
             <Link
               to={recommendationLink}
-              className="rounded-full bg-cyan-400 px-6 py-3 font-semibold text-slate-950 transition hover:bg-cyan-300"
+              className="w-full rounded-full bg-cyan-400 px-6 py-3 text-center font-semibold text-slate-950 transition hover:bg-cyan-300 sm:w-auto"
             >
               {recommendationActionLabel}
             </Link>

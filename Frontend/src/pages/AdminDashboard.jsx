@@ -65,15 +65,15 @@ const AdminDashboard = () => {
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 px-6 py-10 text-white md:px-10">
+    <div className="min-h-screen bg-slate-950 px-4 py-8 text-white sm:px-6 sm:py-10 md:px-10">
       <div className="mx-auto max-w-7xl">
         <section className="flex flex-wrap items-start justify-between gap-6 rounded-[2rem] border border-white/10 bg-[linear-gradient(135deg,rgba(6,182,212,0.18),rgba(15,23,42,0.92))] p-8 md:p-10">
           <div>
             <p className="text-sm uppercase tracking-[0.3em] text-cyan-200">
               Admin Control
             </p>
-            <h1 className="mt-4 text-4xl font-semibold">Content Management Hub</h1>
-            <p className="mt-4 max-w-3xl text-lg leading-8 text-slate-300">
+            <h1 className="mt-4 text-3xl font-semibold md:text-4xl">Content Management Hub</h1>
+            <p className="mt-4 max-w-3xl text-base leading-7 text-slate-300 sm:text-lg sm:leading-8">
               Manage learning paths, topics, quizzes, and users from one place
               while keeping the student journey organized.
             </p>

@@ -44,15 +44,15 @@ const DomainPage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-slate-950 px-6 py-10 text-white md:px-10">
+    <div className="min-h-screen bg-slate-950 px-4 py-8 text-white sm:px-6 sm:py-10 md:px-10">
       <div className="mx-auto max-w-7xl">
         <div className="rounded-[2rem] border border-white/10 bg-[linear-gradient(135deg,rgba(8,145,178,0.22),rgba(15,23,42,0.92))] p-8 md:p-10">
           <p className="text-sm uppercase tracking-[0.3em] text-cyan-200">
             Learning Path
           </p>
-          <h1 className="mt-4 text-4xl font-semibold">{domainData.name}</h1>
+          <h1 className="mt-4 text-3xl font-semibold md:text-4xl">{domainData.name}</h1>
 
-          <p className="mt-4 max-w-3xl text-lg leading-8 text-slate-300">
+          <p className="mt-4 max-w-3xl text-base leading-7 text-slate-300 sm:text-lg sm:leading-8">
             {domainData.description}
           </p>
 
@@ -126,7 +126,7 @@ const DomainPage = () => {
 
                   <button
                     onClick={() => navigate(`/quiz/${selectedTopic._id}`)}
-                    className="rounded-full bg-cyan-400 px-6 py-3 font-semibold text-slate-950 transition hover:bg-cyan-300"
+                    className="w-full rounded-full bg-cyan-400 px-6 py-3 text-center font-semibold text-slate-950 transition hover:bg-cyan-300 sm:w-auto"
                   >
                     Take MCQ Quiz
                   </button>
