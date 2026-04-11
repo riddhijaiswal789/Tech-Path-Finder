@@ -1,77 +1,104 @@
-import { useState, useContext } from "react";
+import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { loginUser } from "../services/authService";
 import { AuthContext } from "../context/auth-context";
 
-const Login = () => {
-  const { login } = useContext(AuthContext);
+function Login() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const navigate = useNavigate();
+  const { login } = useContext(AuthContext);
 
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-  });
-
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // TEMPORARY FAKE LOGIN (Backend later)
-    if (formData.email && formData.password) {
-      login({ email: formData.email });
-      navigate("");
+    try {
+      const res = await loginUser({
+        email,
+        password,
+      });
+
+      login(res.data.user, res.data.token);
+      navigate("/dashboard");
+    } catch (err) {
+      alert(err.response?.data?.message || "Login failed");
     }
   };
 
   return (
-    <div className="flex items-center justify-center min-h-[80vh] px-4">
-      <div className="bg-white shadow-xl rounded-2xl w-full max-w-md p-8">
-        <h2 className="text-3xl font-bold text-center text-blue-600 mb-6">
-          Welcome Back
-        </h2>
+    <div className="min-h-screen bg-slate-950 px-4 py-12 text-white">
+      <div className="mx-auto grid max-w-6xl items-center gap-10 lg:grid-cols-[1fr_0.9fr]">
+        <section className="rounded-[2rem] border border-white/10 bg-[linear-gradient(135deg,rgba(6,182,212,0.18),rgba(15,23,42,0.92))] p-8 md:p-10">
+          <p className="text-sm uppercase tracking-[0.3em] text-cyan-200">
+            Student Access
+          </p>
+          <h1 className="mt-4 text-4xl font-semibold leading-tight">
+            Return to your learning path and keep building momentum.
+          </h1>
+          <p className="mt-5 max-w-xl text-lg leading-8 text-slate-300">
+            Sign in to continue watching lectures, attempt MCQs, and track your
+            learning progress across each topic.
+          </p>
 
-        <form onSubmit={handleSubmit} className="space-y-5">
-          <div>
-            <label className="block mb-1 text-sm font-medium">Email</label>
+          <div className="mt-10 grid gap-4 sm:grid-cols-3">
+            <AuthFeature title="Path-first" text="Resume from learning paths, not random content." />
+            <AuthFeature title="Video-led" text="Study with guided topic lectures." />
+            <AuthFeature title="MCQ-ready" text="Practice right after you learn." />
+          </div>
+        </section>
+
+        <div className="rounded-[2rem] border border-white/10 bg-white/5 p-8 shadow-2xl shadow-cyan-950/20">
+          <h2 className="text-3xl font-semibold text-white">Welcome Back</h2>
+
+          <p className="mt-3 text-slate-400">
+            Login to continue your learning journey.
+          </p>
+
+          <form onSubmit={handleSubmit} className="mt-8 space-y-5">
             <input
               type="email"
-              name="email"
-              required
-              onChange={handleChange}
-              className="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+              placeholder="Email"
+              className="w-full rounded-2xl border border-white/10 bg-slate-950/70 p-4 text-white outline-none transition placeholder:text-slate-500 focus:border-cyan-300/50"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
             />
-          </div>
 
-          <div>
-            <label className="block mb-1 text-sm font-medium">Password</label>
             <input
               type="password"
-              name="password"
-              required
-              onChange={handleChange}
-              className="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+              placeholder="Password"
+              className="w-full rounded-2xl border border-white/10 bg-slate-950/70 p-4 text-white outline-none transition placeholder:text-slate-500 focus:border-cyan-300/50"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
             />
-          </div>
 
-          <button
-            type="submit"
-            className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition duration-300"
-          >
-            Login
-          </button>
-        </form>
+            <button
+              type="submit"
+              className="w-full rounded-2xl bg-cyan-400 p-4 font-semibold text-slate-950 transition hover:bg-cyan-300"
+            >
+              Login
+            </button>
+          </form>
 
-        <p className="text-sm text-center mt-4">
-          Don’t have an account?{" "}
-          <Link to="/register" className="text-blue-600 hover:underline">
-            Register
-          </Link>
-        </p>
+          <p className="mt-6 text-center text-slate-400">
+            Don&apos;t have an account?{" "}
+            <Link
+              to="/register"
+              className="font-medium text-cyan-300 transition hover:text-cyan-200"
+            >
+              Create one
+            </Link>
+          </p>
+        </div>
       </div>
     </div>
   );
-};
+}
+
+const AuthFeature = ({ title, text }) => (
+  <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
+    <h3 className="text-lg font-semibold text-white">{title}</h3>
+    <p className="mt-2 text-sm leading-6 text-slate-400">{text}</p>
+  </div>
+);
 
 export default Login;

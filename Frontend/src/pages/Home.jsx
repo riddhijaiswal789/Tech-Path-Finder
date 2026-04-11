@@ -1,184 +1,218 @@
 import { Link } from "react-router-dom";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../context/auth-context";
-import { learningPaths } from "../data/learningPaths";
+import API from "../services/api";
 
 const Home = () => {
   const { user } = useContext(AuthContext);
+  const [domains, setDomains] = useState([]);
+
+  useEffect(() => {
+    const fetchDomains = async () => {
+      try {
+        const res = await API.get("/domains");
+        setDomains(res.data);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    fetchDomains();
+  }, []);
 
   return (
-    <>
-      {/* HERO SECTION */}
-      <section className="min-h-screen flex flex-col justify-center items-center text-center px-6 bg-gradient-to-br from-gray-950 via-indigo-950 to-black text-white">
-        <h1 className="text-4xl md:text-6xl font-extrabold leading-tight max-w-4xl">
-          Master Your Tech Career With Structured Learning
-        </h1>
+    <div className="bg-slate-950 text-white">
+      <section className="relative overflow-hidden px-6 pb-20 pt-12">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(34,211,238,0.18),_transparent_38%),radial-gradient(circle_at_bottom_right,_rgba(16,185,129,0.12),_transparent_32%)]" />
 
-        <p className="text-gray-400 mt-6 max-w-2xl text-lg">
-          Roadmaps, quizzes, interview prep, and real-world practice —
-          everything a serious student needs in one powerful platform.
-        </p>
+        <div className="relative mx-auto grid min-h-[calc(100vh-7rem)] max-w-7xl items-center gap-14 lg:grid-cols-[1.2fr_0.8fr]">
+          <div>
+            <span className="inline-flex rounded-full border border-cyan-400/30 bg-cyan-400/10 px-4 py-2 text-sm text-cyan-200">
+              Learn with structure, not random tutorials
+            </span>
 
-        <div className="flex gap-6 mt-8 flex-wrap justify-center">
-          {!user ? (
-            <>
-              <Link
-                to="/register"
-                className="bg-indigo-600 hover:bg-indigo-700 px-8 py-3 rounded-xl font-semibold transition"
+            <h1 className="mt-6 max-w-4xl text-5xl font-semibold leading-tight md:text-6xl">
+              Explore a tech path, study the lessons, then prove it with MCQs.
+            </h1>
+
+            <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-300">
+              Tech Path Finder helps learners move in the right order: choose a
+              domain, watch topic-based video lectures, and test understanding
+              with quiz practice after each lesson.
+            </p>
+
+            <div className="mt-10 flex flex-wrap gap-4">
+              <a
+                href="#learning-paths"
+                className="rounded-full bg-cyan-400 px-7 py-3 font-semibold text-slate-950 transition hover:bg-cyan-300"
               >
-                Start Learning
-              </Link>
+                Explore Learning Paths
+              </a>
 
-              <Link
-                to="/login"
-                className="border border-indigo-500 hover:bg-indigo-900 px-8 py-3 rounded-xl transition"
-              >
-                Login
-              </Link>
-            </>
-          ) : (
-            <>
-             <Link
-  to={`/domain/${encodeURIComponent(learningPaths[0].domain)}`}
-  className="bg-indigo-600 hover:bg-indigo-700 px-8 py-3 rounded-xl font-semibold transition"
->
-  Start Learning
-</Link>
+              {user ? (
+                <Link
+                  to="/dashboard"
+                  className="rounded-full border border-white/15 px-7 py-3 text-slate-200 transition hover:border-cyan-300 hover:text-white"
+                >
+                  View My Learning
+                </Link>
+              ) : (
+                <Link
+                  to="/register"
+                  className="rounded-full border border-white/15 px-7 py-3 text-slate-200 transition hover:border-cyan-300 hover:text-white"
+                >
+                  Create Student Account
+                </Link>
+              )}
+            </div>
 
+            <div className="mt-12 grid max-w-2xl gap-4 sm:grid-cols-3">
+              <HeroStat value={domains.length} label="Learning paths ready" />
+              <HeroStat value="Video-led" label="Study experience" />
+              <HeroStat value="MCQ" label="Practice after learning" />
+            </div>
+          </div>
 
-              <Link
-                to="/dashboard"
-                className="border border-indigo-500 hover:bg-indigo-900 px-8 py-3 rounded-xl transition"
-              >
-                View Dashboard
-              </Link>
-            </>
-          )}
+          <div className="grid gap-4">
+            <JourneyCard
+              step="01"
+              title="Pick a domain"
+              description="Start with a focused path like web development, data, or any domain your admin has prepared."
+            />
+            <JourneyCard
+              step="02"
+              title="Learn topic by topic"
+              description="Open a path, watch the lesson video for a topic, and move through the material in sequence."
+            />
+            <JourneyCard
+              step="03"
+              title="Take MCQ practice"
+              description="Complete the quiz after learning so the app measures what you understood, not what you guessed."
+            />
+          </div>
         </div>
       </section>
 
-      {/* DOMAIN PREVIEW (MAIN ENTRY FOR LOGGED USERS) */}
-      {user && (
-        <section className="py-20 px-6 bg-gray-950 text-white">
-          <h2 className="text-3xl md:text-4xl font-bold text-center mb-14">
-            Explore Learning Domains
-          </h2>
+      <section id="learning-paths" className="px-6 py-20">
+        <div className="mx-auto max-w-7xl">
+          <div className="mb-12 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+            <div>
+              <p className="text-sm uppercase tracking-[0.3em] text-cyan-300">
+                Learning Paths
+              </p>
+              <h2 className="mt-3 text-3xl font-semibold">
+                Start with a path that matches your goal
+              </h2>
+            </div>
 
-          <div className="grid md:grid-cols-3 gap-10 max-w-6xl mx-auto">
-            {learningPaths.slice(0, 6).map((path, index) => (
+            <p className="max-w-2xl text-slate-400">
+              Every path is meant to lead the learner from exploration to study
+              to assessment, instead of dropping them into a dashboard first.
+            </p>
+          </div>
+
+          <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+            {domains.map((domain, index) => (
               <Link
-                key={index}
-                to={`/domain/${encodeURIComponent(path.domain)}`}
-                className="bg-gray-900 border border-gray-800 p-8 rounded-2xl hover:border-indigo-500 hover:scale-105 transition"
+                key={domain._id}
+                to={`/domain/${domain._id}`}
+                className="group rounded-3xl border border-white/10 bg-white/5 p-7 transition hover:-translate-y-1 hover:border-cyan-300/40 hover:bg-white/[0.07]"
               >
-                <h3 className="text-xl font-semibold mb-3 text-indigo-400">
-                  {path.domain}
+                <div className="flex items-center justify-between">
+                  <span className="rounded-full bg-cyan-400/10 px-3 py-1 text-xs font-medium uppercase tracking-[0.25em] text-cyan-200">
+                    Path {index + 1}
+                  </span>
+                  <span className="text-slate-500 transition group-hover:text-cyan-200">
+                    Open
+                  </span>
+                </div>
+
+                <h3 className="mt-6 text-2xl font-semibold text-white">
+                  {domain.name}
                 </h3>
 
-                <p className="text-gray-400 text-sm">
-                  {path.topics.length} Structured Topics + Domain Quiz
+                <p className="mt-4 min-h-24 text-sm leading-7 text-slate-400">
+                  {domain.description}
                 </p>
+
+                <div className="mt-8 flex items-center gap-3 text-sm text-slate-300">
+                  <span className="rounded-full border border-white/10 px-3 py-1">
+                    Video lessons
+                  </span>
+                  <span className="rounded-full border border-white/10 px-3 py-1">
+                    Topic quiz
+                  </span>
+                </div>
               </Link>
             ))}
           </div>
-        </section>
-      )}
 
-      {/* TRUST SECTION */}
-      <section className="py-16 bg-gray-900 text-center text-white">
-        <p className="text-gray-400 mb-6">Trusted by ambitious learners</p>
-        <div className="flex justify-center gap-12 text-gray-500 text-lg flex-wrap">
-          <span>🚀 10K+ Students</span>
-          <span>⭐ 4.9 Rating</span>
-          <span>🎯 Placement Focused</span>
-        </div>
-      </section>
-
-      {/* WHY US */}
-      <section className="py-20 px-6 bg-black text-white">
-        <h2 className="text-3xl md:text-4xl font-bold text-center mb-14">
-          Why Students Choose Us
-        </h2>
-
-        <div className="grid md:grid-cols-3 gap-10 max-w-6xl mx-auto">
-          <Card
-            title="Structured Roadmaps"
-            desc="Clear learning paths for DSA, Web Dev, and Data Science with zero confusion."
-          />
-          <Card
-            title="Interview Ready"
-            desc="Mock tests, real interview questions, and company-level practice."
-          />
-          <Card
-            title="Progress Tracking"
-            desc="Monitor your growth and stay accountable with smart tracking tools."
-          />
-        </div>
-      </section>
-
-      {/* DIFFERENCE SECTION */}
-      <section className="py-28 px-6 bg-black text-white relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-indigo-900/20 via-purple-900/20 to-indigo-900/20 blur-3xl"></div>
-
-        <div className="relative max-w-6xl mx-auto">
-          <h2 className="text-3xl md:text-5xl font-bold text-center mb-20">
-            Feel The Difference
-          </h2>
-
-          <div className="grid md:grid-cols-2 gap-12">
-            <div className="bg-gray-900 p-10 rounded-2xl border border-gray-800">
-              <h3 className="text-2xl font-semibold mb-6 text-red-400">
-                😓 The Usual Way
-              </h3>
-
-              <ul className="space-y-4 text-gray-400">
-                <li>• Random YouTube tutorials</li>
-                <li>• No structured roadmap</li>
-                <li>• No progress tracking</li>
-                <li>• Confusion & inconsistency</li>
-                <li>• Burnout before placements</li>
-              </ul>
-            </div>
-
-            <div className="bg-gradient-to-br from-indigo-600/20 to-purple-600/20 p-10 rounded-2xl border border-indigo-500/40">
-              <h3 className="text-2xl font-semibold mb-6 text-indigo-400">
-                🚀 Our Platform
-              </h3>
-
-              <ul className="space-y-4 text-gray-300">
-                <li>• Structured learning paths</li>
-                <li>• Smart quizzes & assessments</li>
-                <li>• Real interview preparation</li>
-                <li>• Clear progress tracking</li>
-                <li>• Confidence + consistency</li>
-              </ul>
-            </div>
-          </div>
-
-          {!user && (
-            <div className="mt-20 text-center">
-              <p className="text-xl text-gray-300 mb-6">
-                Stop consuming content. Start building your future.
-              </p>
-
-              <Link
-                to="/register"
-                className="inline-block bg-indigo-600 hover:bg-indigo-700 px-8 py-3 rounded-xl font-semibold transition"
-              >
-                Join The Movement
-              </Link>
+          {domains.length === 0 && (
+            <div className="rounded-3xl border border-dashed border-white/10 bg-white/5 p-10 text-center text-slate-400">
+              No learning paths are available yet. Add domains from the admin
+              panel to start building the student experience.
             </div>
           )}
         </div>
       </section>
-    </>
+
+      <section className="border-y border-white/10 bg-slate-900/70 px-6 py-20">
+        <div className="mx-auto grid max-w-7xl gap-8 md:grid-cols-3">
+          <FeatureCard
+            title="Explore before committing"
+            description="Learners can browse available domains and understand what each path offers before starting."
+          />
+          <FeatureCard
+            title="Learn with lectures"
+            description="Each topic is built around a video lesson so content consumption becomes part of the actual workflow."
+          />
+          <FeatureCard
+            title="Practice with intent"
+            description="MCQ quizzes appear after the lesson step, which makes assessment feel like reinforcement instead of pressure."
+          />
+        </div>
+      </section>
+
+      <section className="px-6 py-24">
+        <div className="mx-auto max-w-5xl rounded-[2rem] border border-cyan-400/20 bg-[linear-gradient(135deg,rgba(6,182,212,0.14),rgba(15,23,42,0.88))] p-10 text-center md:p-14">
+          <p className="text-sm uppercase tracking-[0.35em] text-cyan-200">
+            Learning Flow
+          </p>
+          <h2 className="mt-4 text-3xl font-semibold md:text-4xl">
+            Help users learn first, then measure progress.
+          </h2>
+          <p className="mx-auto mt-5 max-w-2xl text-slate-300">
+            This experience now leads users toward the content itself. The
+            dashboard still matters, but it supports the learning journey
+            instead of replacing it.
+          </p>
+        </div>
+      </section>
+    </div>
   );
 };
 
-const Card = ({ title, desc }) => (
-  <div className="bg-white/5 p-8 rounded-2xl hover:scale-105 transition duration-300">
-    <h3 className="text-xl font-bold mb-4">{title}</h3>
-    <p className="text-gray-400">{desc}</p>
+const HeroStat = ({ value, label }) => (
+  <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
+    <div className="text-2xl font-semibold text-white">{value}</div>
+    <div className="mt-2 text-sm text-slate-400">{label}</div>
+  </div>
+);
+
+const JourneyCard = ({ step, title, description }) => (
+  <div className="rounded-3xl border border-white/10 bg-white/5 p-6">
+    <div className="text-sm font-medium uppercase tracking-[0.3em] text-cyan-200">
+      Step {step}
+    </div>
+    <h3 className="mt-4 text-2xl font-semibold">{title}</h3>
+    <p className="mt-3 leading-7 text-slate-400">{description}</p>
+  </div>
+);
+
+const FeatureCard = ({ title, description }) => (
+  <div className="rounded-3xl border border-white/10 bg-slate-950/60 p-8">
+    <h3 className="text-xl font-semibold text-white">{title}</h3>
+    <p className="mt-4 leading-7 text-slate-400">{description}</p>
   </div>
 );
 

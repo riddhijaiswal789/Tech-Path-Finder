@@ -5,7 +5,7 @@ const jwt = require("jsonwebtoken");
 /* ========================= */
 /* REGISTER USER */
 /* ========================= */
-exports.registerUser = async (req, res) => {
+const registerUser = async (req, res) => {
   try {
     const { name, email, password } = req.body;
 
@@ -17,7 +17,7 @@ exports.registerUser = async (req, res) => {
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    const user = await User.create({
+    await User.create({
       name,
       email,
       password: hashedPassword,
@@ -26,17 +26,15 @@ exports.registerUser = async (req, res) => {
     res.status(201).json({
       message: "User registered successfully",
     });
-
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
 
-
 /* ========================= */
 /* LOGIN USER */
 /* ========================= */
-exports.loginUser = async (req, res) => {
+const loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
 
@@ -52,11 +50,9 @@ exports.loginUser = async (req, res) => {
       return res.status(400).json({ message: "Invalid credentials" });
     }
 
-    const token = jwt.sign(
-      { id: user._id },
-      process.env.JWT_SECRET,
-      { expiresIn: "7d" }
-    );
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+      expiresIn: "7d",
+    });
 
     res.json({
       token,
@@ -67,27 +63,12 @@ exports.loginUser = async (req, res) => {
         role: user.role,
       },
     });
-
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
 
-
-/* ========================= */
-// /* GET CURRENT USER */
-// /* ========================= */
-// exports.getMe = async (req, res) => {
-//   res.status(200).json(req.user);
-// };
-
-
-const adminOnly = (req, res, next) => {
-  if (req.user && req.user.role === "admin") {
-    next();
-  } else {
-    res.status(403).json({ message: "Admin access only" });
-  }
+module.exports = {
+  registerUser,
+  loginUser,
 };
-
-module.exports = { protect, adminOnly };

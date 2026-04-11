@@ -1,28 +1,64 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { quizData } from "../data/quizData";
+import API from "../services/api";
 
 const QuizPage = () => {
-  const { domain } = useParams();
+  const { topicId } = useParams();
   const navigate = useNavigate();
-  const decodedDomain = decodeURIComponent(domain);
 
   const [questions, setQuestions] = useState([]);
   const [started, setStarted] = useState(false);
   const [current, setCurrent] = useState(0);
   const [selected, setSelected] = useState(null);
-  const [score, setScore] = useState(0);
+  const [answers, setAnswers] = useState([]);
   const [timeLeft, setTimeLeft] = useState(30);
 
-  // Load questions
   useEffect(() => {
-    setQuestions(quizData[decodedDomain] || []);
-    window.scrollTo(0, 0);
-  }, [decodedDomain]);
+    const fetchQuestions = async () => {
+      try {
+        const res = await API.get(`/questions/topic/${topicId}`);
+        setQuestions(res.data);
+      } catch (err) {
+        console.error(err);
+      }
+    };
 
-  // Timer Logic
+    fetchQuestions();
+  }, [topicId]);
+
+  const handleNext = async () => {
+    const updatedAnswers = [
+      ...answers,
+      {
+        questionId: questions[current]._id,
+        selectedOption: selected,
+      },
+    ];
+    setAnswers(updatedAnswers);
+
+    setSelected(null);
+    setTimeLeft(30);
+
+    if (current + 1 < questions.length) {
+      setCurrent((prev) => prev + 1);
+    } else {
+      try {
+        const res = await API.post("/quiz/submit", {
+          topicId,
+          answers: updatedAnswers,
+        });
+
+        navigate(`/score/${topicId}`, {
+          state: res.data,
+        });
+      } catch (err) {
+        console.error(err);
+      }
+    }
+  };
+
   useEffect(() => {
-    if (!started) return;
+    if (!started || !questions.length) return;
 
     if (timeLeft === 0) {
       handleNext();
@@ -34,161 +70,124 @@ const QuizPage = () => {
     }, 1000);
 
     return () => clearTimeout(timer);
-  }, [timeLeft, started]);
+  }, [timeLeft, started, questions.length]);
 
-  const handleNext = () => {
-    let updatedScore = score;
-
-    if (selected === questions[current]?.answer) {
-      updatedScore = score + 1;
-      setScore(updatedScore);
-    }
-
-    setSelected(null);
-    setTimeLeft(30);
-
-    if (current + 1 < questions.length) {
-      setCurrent((prev) => prev + 1);
-    } else {
-      // Save result (future backend ready)
-      const prevScores =
-        JSON.parse(localStorage.getItem("quizScores")) || {};
-
-      prevScores[decodedDomain] = {
-        score: updatedScore,
-        total: questions.length,
-        date: new Date().toISOString(),
-      };
-
-      localStorage.setItem(
-        "quizScores",
-        JSON.stringify(prevScores)
-      );
-
-      // Navigate to ScoreCard page
-      navigate(`/score/${encodeURIComponent(decodedDomain)}`, {
-        state: {
-          score: updatedScore,
-          total: questions.length,
-        },
-      });
-    }
-  };
-
-  // =========================
-  // GET READY SCREEN
-  // =========================
-  if (!started) {
+  if (!questions.length) {
     return (
-      <div className="min-h-screen bg-gray-950 text-white flex flex-col items-center justify-center px-6 text-center">
-        <h1 className="text-4xl font-bold mb-6">
-          {decodedDomain} Quiz
-        </h1>
-
-        <p className="text-gray-400 mb-4">
-          {questions.length} Questions • 30 Seconds Each
-        </p>
-
-        <p className="text-lg mb-8">
-          Ready to challenge yourself?
-        </p>
-
-        <button
-          onClick={() => setStarted(true)}
-          className="bg-indigo-600 hover:bg-indigo-700 px-8 py-3 rounded-xl font-semibold transition"
-        >
-          Start Quiz 🚀
-        </button>
+      <div className="min-h-screen flex items-center justify-center bg-slate-950 px-6 text-white">
+        <div className="rounded-[2rem] border border-dashed border-white/10 bg-white/5 px-8 py-10 text-center text-slate-400">
+          No quiz is available for this topic yet.
+        </div>
       </div>
     );
   }
 
-  // Safety fallback
-  if (!questions.length) {
+  if (!started) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-950 text-white">
-        No Quiz Available
+      <div className="min-h-screen bg-slate-950 px-6 py-10 text-white">
+        <div className="mx-auto grid min-h-[calc(100vh-8rem)] max-w-6xl items-center gap-8 lg:grid-cols-[1fr_0.85fr]">
+          <section className="rounded-[2rem] border border-white/10 bg-[linear-gradient(135deg,rgba(6,182,212,0.18),rgba(15,23,42,0.92))] p-8 md:p-10">
+            <p className="text-sm uppercase tracking-[0.3em] text-cyan-200">
+              Topic Practice
+            </p>
+            <h1 className="mt-4 text-4xl font-semibold">Ready for the MCQ round?</h1>
+            <p className="mt-5 max-w-2xl text-lg leading-8 text-slate-300">
+              This quiz is designed as post-lecture practice. Use it to check
+              how well the lesson actually landed.
+            </p>
+            <div className="mt-10 grid gap-4 sm:grid-cols-3">
+              <QuizFact title={`${questions.length}`} text="Questions in this set" />
+              <QuizFact title="30s" text="Time per question" />
+              <QuizFact title="Timed" text="Focus and answer confidently" />
+            </div>
+          </section>
+
+          <section className="rounded-[2rem] border border-white/10 bg-white/5 p-8 text-center shadow-2xl shadow-cyan-950/20">
+            <h2 className="text-3xl font-semibold">Start Practice</h2>
+            <p className="mt-4 text-slate-400">
+              Pick the best answer for each question before the timer runs out.
+            </p>
+            <button
+              onClick={() => setStarted(true)}
+              className="mt-8 rounded-full bg-cyan-400 px-8 py-4 font-semibold text-slate-950 transition hover:bg-cyan-300"
+            >
+              Start Quiz
+            </button>
+          </section>
+        </div>
       </div>
     );
   }
 
   const question = questions[current];
   const timeProgress = (timeLeft / 30) * 100;
-  const quizProgress =
-    ((current + 1) / questions.length) * 100;
 
   return (
-    <div className="min-h-screen bg-gray-950 text-white px-6 md:px-12 py-10">
+    <div className="min-h-screen bg-slate-950 px-6 py-10 text-white md:px-10">
+      <div className="mx-auto max-w-5xl">
+        <div className="rounded-[2rem] border border-white/10 bg-white/5 p-6 md:p-8">
+          <div className="flex flex-wrap items-center justify-between gap-4">
+            <div>
+              <p className="text-sm uppercase tracking-[0.3em] text-cyan-200">
+                Question {current + 1} of {questions.length}
+              </p>
+              <h1 className="mt-3 text-3xl font-semibold">MCQ Practice</h1>
+            </div>
+            <div className="rounded-full border border-rose-400/30 bg-rose-500/10 px-5 py-2 text-rose-200">
+              {timeLeft}s left
+            </div>
+          </div>
 
-      {/* Top Info */}
-      <div className="flex justify-between items-center mb-4">
-        <h1 className="text-xl font-semibold">
-          Question {current + 1} / {questions.length}
-        </h1>
-        <span className="text-red-400 font-bold">
-          {timeLeft}s
-        </span>
-      </div>
+          <div className="mt-6 h-3 w-full rounded-full bg-slate-800">
+            <div
+              className="h-3 rounded-full bg-cyan-400 transition-all"
+              style={{ width: `${timeProgress}%` }}
+            />
+          </div>
 
-      {/* TIME PROGRESS BAR */}
-      <div className="w-full bg-gray-800 rounded-full h-2 mb-6">
-        <div
-          className="bg-red-500 h-2 rounded-full transition-all duration-1000"
-          style={{ width: `${timeProgress}%` }}
-        />
-      </div>
+          <div className="mt-10 rounded-[1.75rem] border border-white/10 bg-slate-950/60 p-8">
+            <h2 className="text-2xl leading-9 text-white">{question.question}</h2>
 
-      {/* QUIZ PROGRESS */}
-      <div className="w-full bg-gray-800 rounded-full h-2 mb-10">
-        <div
-          className="bg-indigo-500 h-2 rounded-full transition-all duration-300"
-          style={{ width: `${quizProgress}%` }}
-        />
-      </div>
+            <div className="mt-8 space-y-4">
+              {question.options.map((option, i) => (
+                <button
+                  key={i}
+                  onClick={() => setSelected(i)}
+                  className={`w-full rounded-2xl border p-4 text-left transition ${
+                    selected === i
+                      ? "border-cyan-300/50 bg-cyan-400/10 text-white"
+                      : "border-white/10 bg-white/[0.03] text-slate-200 hover:border-white/20 hover:bg-white/[0.05]"
+                  }`}
+                >
+                  <span className="mr-3 inline-flex h-8 w-8 items-center justify-center rounded-full border border-white/10 text-sm text-cyan-200">
+                    {String.fromCharCode(65 + i)}
+                  </span>
+                  {option}
+                </button>
+              ))}
+            </div>
 
-      {/* Question Card */}
-      <div className="bg-gray-900 border border-gray-800 rounded-2xl p-8 max-w-3xl mx-auto shadow-xl">
-
-        <h2 className="text-xl font-semibold mb-6">
-          {question.question}
-        </h2>
-
-        <div className="space-y-4">
-          {question.options.map((option, index) => (
-            <button
-              key={index}
-              onClick={() => setSelected(index)}
-              className={`w-full text-left px-4 py-3 rounded-lg transition ${
-                selected === index
-                  ? "bg-indigo-600"
-                  : "bg-gray-800 hover:bg-gray-700"
-              }`}
-            >
-              {option}
-            </button>
-          ))}
+            <div className="mt-8 flex justify-end">
+              <button
+                disabled={selected === null}
+                onClick={handleNext}
+                className="rounded-full bg-cyan-400 px-6 py-3 font-semibold text-slate-950 transition hover:bg-cyan-300 disabled:cursor-not-allowed disabled:opacity-50"
+              >
+                {current + 1 === questions.length ? "Finish Quiz" : "Next Question"}
+              </button>
+            </div>
+          </div>
         </div>
-
-        <div className="mt-8 text-right">
-          <button
-            disabled={selected === null}
-            onClick={handleNext}
-            className={`px-6 py-2 rounded-lg transition ${
-              selected === null
-                ? "bg-gray-700 cursor-not-allowed"
-                : "bg-indigo-600 hover:bg-indigo-700"
-            }`}
-          >
-            {current + 1 === questions.length
-              ? "Finish"
-              : "Next"}
-          </button>
-        </div>
-
       </div>
-
     </div>
   );
 };
+
+const QuizFact = ({ title, text }) => (
+  <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
+    <div className="text-2xl font-semibold text-white">{title}</div>
+    <div className="mt-2 text-sm text-slate-400">{text}</div>
+  </div>
+);
 
 export default QuizPage;

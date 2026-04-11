@@ -15,59 +15,63 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="bg-gray-900 border-b border-gray-800 fixed w-full z-50 h-18 text-white">
+    <nav className="fixed z-50 h-18 w-full border-b border-white/10 bg-slate-950/90 text-white backdrop-blur">
       <div className="max-w-7xl mx-auto px-6 h-full flex justify-between items-center">
-
-        {/* Logo */}
-        <Link to="/" className="text-2xl font-bold text-indigo-500">
+        <Link to="/" className="text-2xl font-bold tracking-tight text-cyan-300">
           Tech Path Finder
         </Link>
 
-        {/* Desktop Menu */}
         <div className="hidden md:flex items-center space-x-8">
-
-          <Link to="/" className="hover:text-indigo-400 transition">
-            Home
+          <Link to="/" className="text-slate-300 transition hover:text-white">
+            Learning Paths
           </Link>
 
           {user ? (
             <>
-              <Link to="/dashboard" className="hover:text-indigo-400 transition">
-                Dashboard
+              <Link
+                to="/dashboard"
+                className="text-slate-300 transition hover:text-white"
+              >
+                My Learning
               </Link>
 
-              <Link to="/profile" className="hover:text-indigo-400 transition">
+              <Link
+                to="/profile"
+                className="text-slate-300 transition hover:text-white"
+              >
                 Profile
               </Link>
 
-              <span className="text-sm text-gray-400">
+              <span className="text-sm text-slate-400">
                 {user?.name}
               </span>
 
               <button
                 onClick={handleLogout}
-                className="bg-red-600 hover:bg-red-700 px-4 py-2 rounded-lg transition"
+                className="rounded-full border border-rose-500/40 px-4 py-2 text-rose-200 transition hover:border-rose-400 hover:bg-rose-500/10"
               >
                 Logout
               </button>
             </>
           ) : (
             <>
-              <Link to="/login" className="hover:text-indigo-400 transition">
+              <Link
+                to="/login"
+                className="text-slate-300 transition hover:text-white"
+              >
                 Login
               </Link>
 
               <Link
                 to="/register"
-                className="bg-indigo-600 hover:bg-indigo-700 px-4 py-2 rounded-lg transition"
+                className="rounded-full bg-cyan-400 px-4 py-2 font-medium text-slate-950 transition hover:bg-cyan-300"
               >
-                Register
+                Start Learning
               </Link>
             </>
           )}
         </div>
 
-        {/* Mobile Icon */}
         <div className="md:hidden text-2xl cursor-pointer">
           {isOpen ? (
             <FaTimes onClick={() => setIsOpen(false)} />
@@ -77,31 +81,30 @@ const Navbar = () => {
         </div>
       </div>
 
-      {/* Mobile Menu */}
       {isOpen && (
-        <div className="md:hidden bg-gray-900 border-t border-gray-800 px-6 py-4 space-y-4">
+        <div className="md:hidden border-t border-white/10 bg-slate-950 px-6 py-4 space-y-4">
 
           <Link to="/" onClick={() => setIsOpen(false)}>
-            Home
+            Learning Paths
           </Link>
 
           {user ? (
             <>
               <Link to="/dashboard" onClick={() => setIsOpen(false)}>
-                Dashboard
+                My Learning
               </Link>
 
               <Link to="/profile" onClick={() => setIsOpen(false)}>
                 Profile
               </Link>
 
-              <div className="text-sm text-gray-400">
+              <div className="text-sm text-slate-400">
                 {user?.name}
               </div>
 
               <button
                 onClick={handleLogout}
-                className="block w-full text-left text-red-500"
+                className="block w-full text-left text-rose-300"
               >
                 Logout
               </button>
@@ -113,7 +116,7 @@ const Navbar = () => {
               </Link>
 
               <Link to="/register" onClick={() => setIsOpen(false)}>
-                Register
+                Start Learning
               </Link>
             </>
           )}

@@ -1,87 +1,104 @@
 import { useState } from "react";
+import { registerUser } from "../services/authService";
 import { Link, useNavigate } from "react-router-dom";
 
-const Register = () => {
+function Register() {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
   const navigate = useNavigate();
 
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    password: "",
-  });
-
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // TEMPORARY REGISTER LOGIC
-    if (formData.name && formData.email && formData.password) {
-      alert("Registered Successfully!");
+    try {
+      await registerUser({
+        name,
+        email,
+        password,
+      });
+
       navigate("/login");
+    } catch (err) {
+      alert(err.response?.data?.message || "Registration failed");
     }
   };
 
   return (
-    <div className="flex items-center justify-center min-h-[80vh] px-4">
-      <div className="bg-white shadow-xl rounded-2xl w-full max-w-md p-8">
-        <h2 className="text-3xl font-bold text-center text-blue-600 mb-6">
-          Create Account
-        </h2>
+    <div className="min-h-screen bg-slate-950 px-4 py-12 text-white">
+      <div className="mx-auto grid max-w-6xl items-center gap-10 lg:grid-cols-[0.95fr_1fr]">
+        <section className="rounded-[2rem] border border-white/10 bg-white/5 p-8 shadow-2xl shadow-cyan-950/20">
+          <h2 className="text-3xl font-semibold text-white">Create Account</h2>
 
-        <form onSubmit={handleSubmit} className="space-y-5">
-          <div>
-            <label className="block mb-1 text-sm font-medium">Full Name</label>
+          <p className="mt-3 text-slate-400">
+            Start a structured learning journey and track your improvement over time.
+          </p>
+
+          <form onSubmit={handleSubmit} className="mt-8 space-y-5">
             <input
-              type="text"
-              name="name"
-              required
-              onChange={handleChange}
-              className="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+              placeholder="Name"
+              className="w-full rounded-2xl border border-white/10 bg-slate-950/70 p-4 text-white outline-none transition placeholder:text-slate-500 focus:border-cyan-300/50"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
             />
-          </div>
 
-          <div>
-            <label className="block mb-1 text-sm font-medium">Email</label>
             <input
-              type="email"
-              name="email"
-              required
-              onChange={handleChange}
-              className="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+              placeholder="Email"
+              className="w-full rounded-2xl border border-white/10 bg-slate-950/70 p-4 text-white outline-none transition placeholder:text-slate-500 focus:border-cyan-300/50"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
             />
-          </div>
 
-          <div>
-            <label className="block mb-1 text-sm font-medium">Password</label>
             <input
               type="password"
-              name="password"
-              required
-              onChange={handleChange}
-              className="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+              placeholder="Password"
+              className="w-full rounded-2xl border border-white/10 bg-slate-950/70 p-4 text-white outline-none transition placeholder:text-slate-500 focus:border-cyan-300/50"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
             />
+
+            <button
+              type="submit"
+              className="w-full rounded-2xl bg-cyan-400 p-4 font-semibold text-slate-950 transition hover:bg-cyan-300"
+            >
+              Create Student Account
+            </button>
+          </form>
+
+          <p className="mt-6 text-center text-slate-400">
+            Already have an account?{" "}
+            <Link
+              to="/login"
+              className="font-medium text-cyan-300 transition hover:text-cyan-200"
+            >
+              Login
+            </Link>
+          </p>
+        </section>
+
+        <section className="rounded-[2rem] border border-white/10 bg-[linear-gradient(135deg,rgba(8,145,178,0.22),rgba(15,23,42,0.92))] p-8 md:p-10">
+          <p className="text-sm uppercase tracking-[0.3em] text-cyan-200">
+            Start Smart
+          </p>
+          <h1 className="mt-4 text-4xl font-semibold leading-tight">
+            Join a platform built around learning paths, lessons, and practice.
+          </h1>
+          <div className="mt-8 space-y-4">
+            <AuthBullet text="Explore a tech path before jumping into progress metrics." />
+            <AuthBullet text="Watch topic-based lectures in a clear sequence." />
+            <AuthBullet text="Reinforce each lesson with timed MCQ practice." />
           </div>
-
-          <button
-            type="submit"
-            className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition duration-300"
-          >
-            Register
-          </button>
-        </form>
-
-        <p className="text-sm text-center mt-4">
-          Already have an account?{" "}
-          <Link to="/login" className="text-blue-600 hover:underline">
-            Login
-          </Link>
-        </p>
+        </section>
       </div>
     </div>
   );
-};
+}
+
+const AuthBullet = ({ text }) => (
+  <div className="rounded-2xl border border-white/10 bg-white/5 px-5 py-4 text-slate-200">
+    {text}
+  </div>
+);
 
 export default Register;
